@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-database.js"></script>
+ <style type="text/css">
+        @import url('https://fonts.googleapis.com/css?family=Crimson+Text');
+html {
+    font-size: 16pt;
+    font-family: crimson text;
+}
+
+article {
+    width: 60%;
+    margin: auto;
+}
+
+blockquote,
+div,
+h12 {
+    text-align: center;
+}
+
+blockquote {
+    font-size: 1.2rem;
+}
+
+.buttons {
+    margin-top: 25px;
+}
+   button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    height: 48px;
+    outline: none;
+    padding: 0;
+    width: 48px;
+}
+
+#play {
+    background-image: url(https://rpsthecoder.github.io/js-speech-synthesis/play.svg);
+}
+
+#play.played {
+    background-image: url(https://rpsthecoder.github.io/js-speech-synthesis/play1.svg);
+}
+
+#pause {
+    background-image: url(https://rpsthecoder.github.io/js-speech-synthesis/pause.svg);
+}
+
+#pause.paused {
+    background-image: url(https://rpsthecoder.github.io/js-speech-synthesis/pause1.svg);
+}
+
+#stop {
+    background-image: url(https://rpsthecoder.github.io/js-speech-synthesis/stop.svg);
+}
+
+#stop.stopped {
+    background-image: url(https://rpsthecoder.github.io/js-speech-synthesis/stop1.svg);
+}
+
+@media (max-width: 700px) {
+    html {
+ 
+</style>
+  
+</head>
+
+
+<body>
+	 <div class="medilife-tab-content d-md-flex align-items-center"style="background-image:url(img/adminback.jpg);">
+                                       
+                                         <div class="back"style="width: -webkit-fill-available;
+    padding-right: 50px;" >
+                 
+                 <article style="margin-left: 50%;">    
+
+<marquee direction="up" onmouseover="this.stop()" onmouseout="this.start()" scrollamount="2" scrolldelay="50"style=    "
+  
+  
+    margin-top: -5%;
+  
+    padding: 5%;
+        padding-bottom: 0%;">
+        <div class=buttons>
+        	<div class="execphpwidget"style=" text-align: start" id="notification_table">
+
+      <li>
+<a>
+The last date to fill in the examination form&nbsp; without late Fees is extended upto 20-5-2020 &nbsp;<img src="https://www.himtu.ac.in/images/newCircle.gif" alt="">
+</a>
+</li>
+<li>
+<a href="https://www.himtu.ac.in/himtuadmin/pdf/Notice-_examination_extn1520.pdf" target="_blank">
+Notice regarding End Sem Examination Form &nbsp;<img src="https://www.himtu.ac.in/images/newCircle.gif" alt="">
+</a>
+</li>
+<li>
+<a href="http://hptu.indiaresults.com/login.aspx" target="_blank">
+<i><b>Application Form for End Sem.(NS/CBCS/PCI) Exam. June/July-2020</b></i> &nbsp;<img src="https://www.himtu.ac.in/images/newCircle.gif" alt="">
+</a>
+</li>
+<li>
+<a>
+Recruitment examination for the posts of Asstt. Co-ordinator and APRO scheduled on 28-3-2020 has been postponed till further order due to Covid-19 </a>
+</li>
+<li>
+<a href="https://www.himtu.ac.in/himtuadmin/pdf/COVID-19_Instructions_0011.jpg" target="_blank">
+Instruction in view of COVID-19 </a>
+</li>
+
+</div>
+
+
+</div></marquee>
+<div><button id=play></button> &nbsp;
+    <button id=pause></button> &nbsp;
+    <button id=stop></button></div>  
+</div>
+</article>
+
+ <!-- Medilife Tab Text  -->
+                                </div>
+	</body>
+	 <script type="text/javascript">
+    onload = function() {
+    if ('speechSynthesis' in window) with(speechSynthesis) {
+
+        var playEle = document.querySelector('#play');
+        var pauseEle = document.querySelector('#pause');
+        var stopEle = document.querySelector('#stop');
+        var flag = false;
+
+        playEle.addEventListener('click', onClickPlay);
+        pauseEle.addEventListener('click', onClickPause);
+        stopEle.addEventListener('click', onClickStop);
+
+        function onClickPlay() {
+            if (!flag) {
+                flag = true;
+                utterance = new SpeechSynthesisUtterance(document.querySelector('article').textContent);
+                utterance.voice = getVoices()[0];
+                utterance.onend = function() {
+                    flag = false;
+                    playEle.className = pauseEle.className = '';
+                    stopEle.className = 'stopped';
+                };
+                playEle.className = 'played';
+                stopEle.className = '';
+                speak(utterance);
+            }
+            if (paused) { /* unpause/resume narration */
+                playEle.className = 'played';
+                pauseEle.className = '';
+                resume();
+            }
+        }
+
+        function onClickPause() {
+            if (speaking && !paused) { /* pause narration */
+                pauseEle.className = 'paused';
+                playEle.className = '';
+                pause();
+            }
+        }
+
+        function onClickStop() {
+            if (speaking) { /* stop narration */
+                /* for safari */
+                stopEle.className = 'stopped';
+                playEle.className = pauseEle.className = '';
+                flag = false;
+                cancel();
+
+            }
+        }
+
+    }
+
+    else { /* speech synthesis not supported */
+        msg = document.createElement('h5');
+        msg.textContent = "Detected no support for Speech Synthesis";
+        msg.style.textAlign = 'center';
+        msg.style.backgroundColor = 'red';
+        msg.style.color = 'white';
+        msg.style.marginTop = msg.style.marginBottom = 0;
+        document.body.insertBefore(msg, document.querySelector('div'));
+    }
+
+}
+</script>
+  
+	</html>
