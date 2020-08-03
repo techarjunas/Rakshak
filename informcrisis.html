@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>OnePage Bootstrap Template - Index</title>
+  <meta content="" name="descriptison">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{{ url_for('static', filename='assets/img/favicon.png')}}" rel="icon">
+  <link href="{{ url_for('static', filename='assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/icofont/icofont.min.css')}}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/boxicons/css/boxicons.min.css')}}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/remixicon/remixicon.css')}}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/venobox/venobox.css')}}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/owl.carousel/assets/owl.carousel.min.css')}}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/aos/aos.css')}}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{{ url_for('static', filename='assets/css/style.css')}}" rel="stylesheet">
+
+
+  
+
+
+
+
+
+
+<script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+
+
+</head>
+<body style="text-align: center;">
+   
+  <a href="index.html"><img src="{{ url_for('static', filename='assets/img/rakshak.png')}}"></a>
+    <hr>
+    <hr>
+
+
+
+  <br><br>
+  
+<!-- ======= Frequently Asked Questions Section ======= -->
+<section id="faq" class="faq section-bg">
+    <div class="container" >
+
+      <div class="section-title">
+        <h2>Inform otheres about crisis</h2>
+        <p>Inform people around you in the range of 4 km about the crisis/p>
+        <br>
+        <p>1.Click the image</p>
+        <p>2.Click the send button</p>
+      </div>
+  
+
+
+  <form action="/imgtoinsta" method="post" enctype = "multipart/form-data">
+    <input type="text" placeholder="caption" name="instapost" id="instapost">
+    <input type="file" name = "photo" accept="image/*" placeholder="Upload image" />
+    <input type="submit" value="post on social networking" id="help_me">
+    
+    </form>
+
+    </div>
+    </section>
+
+
+    <script>
+      $(document).ready(function(){
+  
+  var wlat,wlong,x;
+  if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(getLocation);
+  }
+  else {
+  console("not found");
+  };
+  
+  function getLocation(position) {
+      wlat = position.coords.latitude;
+      wlong = position.coords.longitude;
+      x = wlat+","+wlong
+  
+  }
+  
+  $("#help_me").click(function(){
+  alert(wlat+","+wlong);
+  
+  
+  
+  $.post( "/askhelpcoo", {
+      
+      "location" : wlat+","+wlong,
+      
+  } );
+ 
+  
+  
+  
+  
+  
+  });
+  });
+  
+  </script>
+</body>
+</html>
